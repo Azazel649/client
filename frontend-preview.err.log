@@ -1,0 +1,13 @@
+[31mfailed to load config from D:\desktop\BS\client\frontend\vite.config.ts[39m
+[31merror when starting preview server:
+Error: spawn EPERM
+    at ChildProcess.spawn (node:internal/child_process:420:11)
+    at Object.spawn (node:child_process:759:9)
+    at ensureServiceIsRunning (D:\desktop\BS\client\frontend\node_modules\esbuild\lib\main.js:1978:29)
+    at build (D:\desktop\BS\client\frontend\node_modules\esbuild\lib\main.js:1876:26)
+    at bundleConfigFile (file:///D:/desktop/BS/client/frontend/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:49343:24)
+    at async bundleAndLoadConfigFile (file:///D:/desktop/BS/client/frontend/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:49327:19)
+    at async loadConfigFromFile (file:///D:/desktop/BS/client/frontend/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:49291:44)
+    at async resolveConfig (file:///D:/desktop/BS/client/frontend/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:48786:24)
+    at async preview (file:///D:/desktop/BS/client/frontend/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:48266:18)
+    at async CAC.<anonymous> (file:///D:/desktop/BS/client/frontend/node_modules/vite/dist/node/cli.js:914:22)[39m
