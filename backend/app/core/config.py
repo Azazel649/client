@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     app_env: str = "development"
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
+    secret_key: str = "change-me-in-production"
+    access_token_expire_minutes: int = 120
 
     mysql_host: str = "127.0.0.1"
     mysql_port: int = 3306

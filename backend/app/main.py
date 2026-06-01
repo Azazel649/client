@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .api import auth_router, device_router
 from .core.config import settings
 from .db.mysql import close_mysql, init_mysql, ping_mysql
 from .db.redis import close_redis, get_redis_client, ping_redis
@@ -32,6 +33,10 @@ if settings.cors_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+
+app.include_router(auth_router)
+app.include_router(device_router)
 
 
 @app.get("/health", tags=["system"])
