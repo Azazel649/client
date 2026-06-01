@@ -1,0 +1,1004 @@
+{
+  "machine_type": "M",
+  "seq_len": 12,
+  "pred_len": 4,
+  "min_cycle_len": 16,
+  "cycle_stats": {
+    "n_cycles": 120,
+    "min_len": 5,
+    "median_len": 25,
+    "max_len": 34,
+    "mean_len": 24.975
+  },
+  "cycles": [
+    {
+      "cycle_id": 0,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 1,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 2,
+      "length": 20,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 3,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 4,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 5,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 6,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 7,
+      "length": 19,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 8,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 9,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 10,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 11,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 12,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 13,
+      "length": 23,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 1,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 14,
+      "length": 31,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 1,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 15,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 16,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 17,
+      "length": 31,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 1,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 18,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 19,
+      "length": 20,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 20,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 21,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 22,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 23,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 24,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 25,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 26,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 27,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 28,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 29,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 30,
+      "length": 18,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 31,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 32,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 33,
+      "length": 31,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 1,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 34,
+      "length": 31,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 1,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 35,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 36,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 37,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 38,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 39,
+      "length": 19,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 40,
+      "length": 20,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 41,
+      "length": 19,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 42,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 43,
+      "length": 32,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 2,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 44,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 45,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 46,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 47,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 48,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 49,
+      "length": 31,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 1,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 50,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 51,
+      "length": 23,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 1,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 52,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 53,
+      "length": 23,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 1,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 54,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 55,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 56,
+      "length": 16,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 57,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 58,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 59,
+      "length": 29,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 60,
+      "length": 34,
+      "used": true,
+      "train_windows": 9,
+      "val_windows": 2,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 61,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 62,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 63,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 64,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 65,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 66,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 67,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 68,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 69,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 70,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 71,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 72,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 73,
+      "length": 19,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 74,
+      "length": 32,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 2,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 75,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 76,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 77,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 78,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 79,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 80,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 81,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 82,
+      "length": 28,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 83,
+      "length": 20,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 84,
+      "length": 27,
+      "used": true,
+      "train_windows": 4,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 85,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 86,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 87,
+      "length": 31,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 1,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 88,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 89,
+      "length": 29,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 90,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 91,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 92,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 93,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 94,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 95,
+      "length": 16,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 96,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 97,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 98,
+      "length": 30,
+      "used": true,
+      "train_windows": 6,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 99,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 100,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 101,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 102,
+      "length": 20,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 103,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 104,
+      "length": 24,
+      "used": true,
+      "train_windows": 2,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 105,
+      "length": 31,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 1,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 106,
+      "length": 29,
+      "used": true,
+      "train_windows": 5,
+      "val_windows": 2,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 107,
+      "length": 23,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 1,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 108,
+      "length": 21,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 109,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 110,
+      "length": 19,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 111,
+      "length": 23,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 1,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 112,
+      "length": 32,
+      "used": true,
+      "train_windows": 7,
+      "val_windows": 2,
+      "test_windows": 2
+    },
+    {
+      "cycle_id": 113,
+      "length": 26,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 1,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 114,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 115,
+      "length": 22,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 0,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 116,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 117,
+      "length": 25,
+      "used": true,
+      "train_windows": 3,
+      "val_windows": 0,
+      "test_windows": 1
+    },
+    {
+      "cycle_id": 118,
+      "length": 23,
+      "used": true,
+      "train_windows": 1,
+      "val_windows": 1,
+      "test_windows": 0
+    },
+    {
+      "cycle_id": 119,
+      "length": 5,
+      "used": false,
+      "reason": "too_short"
+    }
+  ],
+  "n_train_windows": 374,
+  "n_val_windows": 76,
+  "n_test_windows": 93,
+  "feature_columns": [
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]"
+  ],
+  "target_columns": [
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]"
+  ],
+  "mean": [
+    300.2443542480469,
+    310.0787658691406,
+    1574.8343505859375,
+    40.16661071777344,
+    78.93616485595703
+  ],
+  "std": [
+    1.940197229385376,
+    1.3439310789108276,
+    218.22494506835938,
+    6.995273113250732,
+    40.83848190307617
+  ]
+}

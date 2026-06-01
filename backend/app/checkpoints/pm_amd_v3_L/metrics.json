@@ -1,0 +1,32 @@
+{
+  "machine_type": "L",
+  "best_val_loss": 0.22431373596191406,
+  "test_loss": 0.38962894678115845,
+  "test_mse": 0.28542011976242065,
+  "test_mae": 0.27100566029548645,
+  "n_train_windows": 1882,
+  "n_val_windows": 541,
+  "n_test_windows": 598,
+  "variable_metrics_standardized": {
+    "Air temperature [K]": {
+      "mae_standardized": 0.12599599361419678,
+      "mse_standardized": 0.056945424526929855
+    },
+    "Process temperature [K]": {
+      "mae_standardized": 0.1607554852962494,
+      "mse_standardized": 0.06729043275117874
+    },
+    "Rotational speed [rpm]": {
+      "mae_standardized": 0.33515796065330505,
+      "mse_standardized": 0.30812063813209534
+    },
+    "Torque [Nm]": {
+      "mae_standardized": 0.6279973387718201,
+      "mse_standardized": 0.9769341945648193
+    },
+    "Tool wear [min]": {
+      "mae_standardized": 0.10388514399528503,
+      "mse_standardized": 0.017124617472290993
+    }
+  }
+}

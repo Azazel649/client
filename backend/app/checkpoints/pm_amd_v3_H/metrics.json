@@ -1,0 +1,32 @@
+{
+  "machine_type": "H",
+  "best_val_loss": 0.16325069963932037,
+  "test_loss": 0.35888275504112244,
+  "test_mse": 0.21376213431358337,
+  "test_mae": 0.30627599358558655,
+  "n_train_windows": 232,
+  "n_val_windows": 98,
+  "n_test_windows": 196,
+  "variable_metrics_standardized": {
+    "Air temperature [K]": {
+      "mae_standardized": 0.09051170945167542,
+      "mse_standardized": 0.01662348210811615
+    },
+    "Process temperature [K]": {
+      "mae_standardized": 0.15063336491584778,
+      "mse_standardized": 0.0377010852098465
+    },
+    "Rotational speed [rpm]": {
+      "mae_standardized": 0.6282210350036621,
+      "mse_standardized": 0.5542787313461304
+    },
+    "Torque [Nm]": {
+      "mae_standardized": 0.5253927707672119,
+      "mse_standardized": 0.43748408555984497
+    },
+    "Tool wear [min]": {
+      "mae_standardized": 0.14790312945842743,
+      "mse_standardized": 0.03788023814558983
+    }
+  }
+}

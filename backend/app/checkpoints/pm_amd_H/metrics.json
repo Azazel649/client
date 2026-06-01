@@ -1,0 +1,10 @@
+{
+  "machine_type": "H",
+  "best_val_loss": 0.4368525743484497,
+  "test_loss": 0.9570170640945435,
+  "test_mse": 0.9570170640945435,
+  "test_mae": 0.6645520329475403,
+  "n_train_windows": 83,
+  "n_val_windows": 19,
+  "n_test_windows": 40
+}
