@@ -13,6 +13,7 @@ from .api import (
     prediction_router,
     schedule_router,
     task_router,
+    transfer_router,
 )
 from .core.config import settings
 from .db.mysql import close_mysql, init_mysql, ping_mysql
@@ -58,6 +59,7 @@ app.include_router(maintenance_router)
 app.include_router(task_router)
 app.include_router(schedule_router)
 app.include_router(dispatch_router)
+app.include_router(transfer_router)
 
 
 @app.get("/health", tags=["system"])

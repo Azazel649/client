@@ -7,6 +7,7 @@ from .maintenance import router as maintenance_router
 from .predictions import router as prediction_router
 from .schedules import router as schedule_router
 from .tasks import router as task_router
+from .transfers import router as transfer_router
 
 __all__ = [
     "auth_router",
@@ -18,4 +19,5 @@ __all__ = [
     "prediction_router",
     "schedule_router",
     "task_router",
+    "transfer_router",
 ]
