@@ -21,6 +21,15 @@ class OperationRepository(BaseRepository[OperationLog]):
         )
         return list(reversed(self.db.scalars(statement).all()))
 
+    def get_latest_log(self, device_id: str) -> OperationLog | None:
+        statement = (
+            select(OperationLog)
+            .where(OperationLog.device_id == device_id)
+            .order_by(OperationLog.timestamp.desc())
+            .limit(1)
+        )
+        return self.db.scalar(statement)
+
     def get_operation_trend(self, device_id: str, start_time: datetime, end_time: datetime) -> list[OperationLog]:
         statement = (
             select(OperationLog)

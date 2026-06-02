@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     tabpfn_model_path: str = "app/l_hybrid_failure_predictor.joblib"
     model_name: str = "pm_amd_v3"
 
+    data_replay_csv_path: str = "app/history_L.csv"
+    data_replay_device_ids: list[str] = Field(default_factory=lambda: ["CNC-01"])
+    data_replay_batch_size: int = 1
+    data_replay_auto_start: bool = False
     data_replay_interval: int = 10
     prediction_interval: int = 300
     load_monitor_interval: int = 30
