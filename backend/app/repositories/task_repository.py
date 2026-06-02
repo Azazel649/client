@@ -15,6 +15,13 @@ class TaskRepository(BaseRepository[ProductionTask]):
         )
         return list(self.db.scalars(statement).all())
 
+    def list_tasks(self, status: str | None = None) -> list[ProductionTask]:
+        statement = select(ProductionTask)
+        if status is not None:
+            statement = statement.where(ProductionTask.status == status)
+        statement = statement.order_by(ProductionTask.create_time.desc())
+        return list(self.db.scalars(statement).all())
+
     def get_tasks_by_device(self, device_id: str) -> list[ProductionTask]:
         statement = (
             select(ProductionTask)
@@ -43,5 +50,15 @@ class TaskRepository(BaseRepository[ProductionTask]):
             task.start_time = start_time
         if end_time is not None:
             task.end_time = end_time
+        self.db.flush()
+        return task
+
+    def update_task(self, task_id: str, **values) -> ProductionTask | None:
+        task = self.get(task_id)
+        if task is None:
+            return None
+        for key, value in values.items():
+            if value is not None and hasattr(task, key):
+                setattr(task, key, value)
         self.db.flush()
         return task

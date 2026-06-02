@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import delete, select
 
 from ..models.schedule import ScheduleLog, SchedulePlan, SchedulePlanItem
 from .base import BaseRepository
@@ -17,6 +17,16 @@ class SchedulePlanRepository(BaseRepository[SchedulePlan]):
         statement = statement.order_by(SchedulePlan.create_time.desc()).limit(1)
         return self.db.scalar(statement)
 
+    def update_plan(self, plan_id: str, **values) -> SchedulePlan | None:
+        plan = self.get(plan_id)
+        if plan is None:
+            return None
+        for key, value in values.items():
+            if value is not None and hasattr(plan, key):
+                setattr(plan, key, value)
+        self.db.flush()
+        return plan
+
 
 class SchedulePlanItemRepository(BaseRepository[SchedulePlanItem]):
     model = SchedulePlanItem
@@ -26,6 +36,10 @@ class SchedulePlanItemRepository(BaseRepository[SchedulePlanItem]):
         self.db.flush()
         return items
 
+    def delete_items_by_plan(self, plan_id: str) -> None:
+        self.db.execute(delete(SchedulePlanItem).where(SchedulePlanItem.plan_id == plan_id))
+        self.db.flush()
+
     def get_items_by_plan(self, plan_id: str) -> list[SchedulePlanItem]:
         statement = (
             select(SchedulePlanItem)
@@ -33,6 +47,20 @@ class SchedulePlanItemRepository(BaseRepository[SchedulePlanItem]):
             .order_by(SchedulePlanItem.device_id, SchedulePlanItem.start_time)
         )
         return list(self.db.scalars(statement).all())
+
+    def get_item_by_plan_and_task(self, plan_id: str, task_id: str) -> SchedulePlanItem | None:
+        statement = select(SchedulePlanItem).where(
+            SchedulePlanItem.plan_id == plan_id,
+            SchedulePlanItem.task_id == task_id,
+        )
+        return self.db.scalar(statement)
+
+    def update_item(self, item: SchedulePlanItem, **values) -> SchedulePlanItem:
+        for key, value in values.items():
+            if value is not None and hasattr(item, key):
+                setattr(item, key, value)
+        self.db.flush()
+        return item
 
 
 class ScheduleLogRepository(BaseRepository[ScheduleLog]):

@@ -10,6 +10,16 @@ from .device_schema import (
 from .data_replay_schema import DataReplayResetResponse, DataReplayStatusResponse, DataReplayStepResponse, ReplayedOperationResponse
 from .health_schema import HealthEvaluationResponse, HealthTrendPoint, HealthTrendResponse
 from .prediction_schema import FaultProbabilityResponse, PredictionResultResponse, PredictionRunResponse, PredictionTriggerRequest
+from .schedule_schema import (
+    ScheduleAdjustRequest,
+    ScheduleGanttItem,
+    ScheduleGanttResponse,
+    ScheduleMetricsResponse,
+    ScheduleOptimizeRequest,
+    SchedulePlanItemResponse,
+    SchedulePlanResponse,
+)
+from .task_schema import ProductionTaskCreate, ProductionTaskResponse, ProductionTaskUpdate, TaskQueueResponse
 
 __all__ = [
     "ChangePasswordRequest",
@@ -33,5 +43,16 @@ __all__ = [
     "PredictionRunResponse",
     "PredictionTriggerRequest",
     "ReplayedOperationResponse",
+    "ProductionTaskCreate",
+    "ProductionTaskResponse",
+    "ProductionTaskUpdate",
+    "ScheduleAdjustRequest",
+    "ScheduleGanttItem",
+    "ScheduleGanttResponse",
+    "ScheduleMetricsResponse",
+    "ScheduleOptimizeRequest",
+    "SchedulePlanItemResponse",
+    "SchedulePlanResponse",
+    "TaskQueueResponse",
     "UserInfoResponse",
 ]
