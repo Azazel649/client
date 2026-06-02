@@ -8,6 +8,7 @@ from .device_schema import (
     OperationTrendResponse,
 )
 from .data_replay_schema import DataReplayResetResponse, DataReplayStatusResponse, DataReplayStepResponse, ReplayedOperationResponse
+from .dispatch_schema import DispatchDeviceState, DispatchGanttResponse, DispatchPlanResponse, DispatchRunRequest
 from .health_schema import HealthEvaluationResponse, HealthTrendPoint, HealthTrendResponse
 from .prediction_schema import FaultProbabilityResponse, PredictionResultResponse, PredictionRunResponse, PredictionTriggerRequest
 from .schedule_schema import (
@@ -27,6 +28,10 @@ __all__ = [
     "DeviceDetailResponse",
     "DeviceResponse",
     "DeviceStatusUpdateRequest",
+    "DispatchDeviceState",
+    "DispatchGanttResponse",
+    "DispatchPlanResponse",
+    "DispatchRunRequest",
     "DataReplayResetResponse",
     "DataReplayStatusResponse",
     "DataReplayStepResponse",

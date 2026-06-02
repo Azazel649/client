@@ -7,6 +7,7 @@ from .api import (
     auth_router,
     data_replay_router,
     device_router,
+    dispatch_router,
     health_router,
     maintenance_router,
     prediction_router,
@@ -56,6 +57,7 @@ app.include_router(health_router)
 app.include_router(maintenance_router)
 app.include_router(task_router)
 app.include_router(schedule_router)
+app.include_router(dispatch_router)
 
 
 @app.get("/health", tags=["system"])
