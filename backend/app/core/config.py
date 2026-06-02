@@ -31,6 +31,10 @@ class Settings(BaseSettings):
     amd_checkpoint_path: str = "app/checkpoints"
     tabpfn_model_path: str = "app/l_hybrid_failure_predictor.joblib"
     model_name: str = "pm_amd_v3"
+    prediction_history_csv_path: str = "app/history_L.csv"
+    prediction_output_dir: str = "../two_stage_output_L"
+    prediction_default_query_wear: float = 120
+    prediction_max_rollout_steps: int = 64
 
     data_replay_csv_path: str = "app/history_L.csv"
     data_replay_device_ids: list[str] = Field(default_factory=lambda: ["CNC-01"])

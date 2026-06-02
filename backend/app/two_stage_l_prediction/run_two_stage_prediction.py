@@ -24,6 +24,7 @@ def parse_args():
     parser.add_argument('--second_stage_model', type=str, required=True)
     parser.add_argument('--trainer_script', type=str, default=None)
     parser.add_argument('--output_dir', type=str, required=True)
+    parser.add_argument('--max_rollout_steps', type=int, default=64)
     return parser.parse_args()
 
 
@@ -38,6 +39,7 @@ def main(args):
         trainer_script=args.trainer_script,
         cycle_offset=args.cycle_offset,
         machine_type=args.machine_type,
+        max_rollout_steps=args.max_rollout_steps,
     )
     save_prediction_outputs(stage1, result, args.output_dir)
     print(json.dumps(result, ensure_ascii=False, indent=2))

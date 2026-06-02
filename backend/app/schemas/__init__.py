@@ -8,6 +8,8 @@ from .device_schema import (
     OperationTrendResponse,
 )
 from .data_replay_schema import DataReplayResetResponse, DataReplayStatusResponse, DataReplayStepResponse, ReplayedOperationResponse
+from .health_schema import HealthEvaluationResponse, HealthTrendPoint, HealthTrendResponse
+from .prediction_schema import FaultProbabilityResponse, PredictionResultResponse, PredictionRunResponse, PredictionTriggerRequest
 
 __all__ = [
     "ChangePasswordRequest",
@@ -18,11 +20,18 @@ __all__ = [
     "DataReplayResetResponse",
     "DataReplayStatusResponse",
     "DataReplayStepResponse",
+    "FaultProbabilityResponse",
+    "HealthEvaluationResponse",
+    "HealthTrendPoint",
+    "HealthTrendResponse",
     "LoginRequest",
     "LoginResponse",
     "MessageResponse",
     "OperationLogResponse",
     "OperationTrendResponse",
+    "PredictionResultResponse",
+    "PredictionRunResponse",
+    "PredictionTriggerRequest",
     "ReplayedOperationResponse",
     "UserInfoResponse",
 ]

@@ -1,1 +1,3 @@
-"""Model wrappers are added later; existing prediction code is left unchanged."""
+from .model_manager import model_manager
+
+__all__ = ["model_manager"]

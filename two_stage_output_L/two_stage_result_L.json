@@ -1,31 +1,37 @@
 {
   "stage1_query_result": {
-    "match_mode": "nearest",
-    "matched_step": 3,
-    "query_wear": 120.0,
-    "warning": "exact crossing not found; returned nearest step",
-    "Air temperature [K]": 298.7184753417969,
-    "Process temperature [K]": 309.3799743652344,
-    "Rotational speed [rpm]": 1771.931396484375,
-    "Torque [Nm]": 34.6111946105957,
-    "Tool wear [min]": 103.24615478515625,
+    "match_mode": "interpolated",
+    "matched_between_step": [
+      23,
+      24
+    ],
+    "interp_ratio": 1.0,
+    "query_wear": 208.0,
+    "Air temperature [K]": 298.4646911621094,
+    "Process temperature [K]": 309.3133239746094,
+    "Rotational speed [rpm]": 1753.8870849609375,
+    "Torque [Nm]": 38.75209045410156,
+    "Tool wear [min]": 208.0,
     "current_wear": 86.0,
     "cycle_offset_used": 0,
-    "machine_type": "L"
+    "machine_type": "L",
+    "rollout_steps": 25,
+    "used_calibrated_extension": true
   },
   "stage2_failure_prediction": "No Failure",
   "stage2_input_used": {
-    "Air temperature [K]": 298.7184753417969,
-    "Process temperature [K]": 309.3799743652344,
-    "Rotational speed [rpm]": 1771.931396484375,
-    "Torque [Nm]": 34.6111946105957,
-    "Tool wear [min]": 103.24615478515625
+    "Air temperature [K]": 298.4646911621094,
+    "Process temperature [K]": 309.3133239746094,
+    "Rotational speed [rpm]": 1753.8870849609375,
+    "Torque [Nm]": 38.75209045410156,
+    "Tool wear [min]": 208.0
   },
   "notes": {
     "machine_type_used": "L",
     "stage1_model": "pm_amd_v3_L",
     "stage2_model_file": ".\\backend\\app\\l_hybrid_failure_predictor.joblib",
     "seq_len": 16,
-    "pred_len": 4
+    "pred_len": 4,
+    "rollout_steps": 25
   }
 }

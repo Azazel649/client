@@ -197,6 +197,70 @@ def interpolate_at_wear(cycle_df: pd.DataFrame, query_wear: float) -> Dict[str, 
     return output
 
 
+def extend_forecast_to_query_wear(history_df: pd.DataFrame, forecast_df: pd.DataFrame, query_wear: float) -> pd.DataFrame:
+    """Extend forecast externally when the trained AMD horizon saturates before the queried wear.
+
+    The AMD checkpoint is trained with a short fixed ``pred_len``. Changing that
+    length would invalidate the saved weights, so this keeps the model intact and
+    only calibrates the business-facing wear axis when the requested wear lies
+    beyond the rolled model path.
+    """
+    if forecast_df.empty:
+        return forecast_df
+
+    current_wear = float(history_df['Tool wear [min]'].iloc[-1])
+    forecast_wear = forecast_df['Tool wear [min]'].to_numpy(dtype=float)
+    if current_wear <= query_wear <= np.nanmax(forecast_wear):
+        return forecast_df
+    if query_wear < current_wear and query_wear >= np.nanmin(forecast_wear):
+        return forecast_df
+
+    history_wear = history_df['Tool wear [min]'].to_numpy(dtype=float)
+    combined_wear = np.concatenate([history_wear, forecast_wear])
+    diffs = np.diff(combined_wear)
+    if query_wear >= current_wear:
+        candidate_diffs = diffs[diffs > 1e-4]
+    else:
+        candidate_diffs = -diffs[diffs < -1e-4]
+    wear_step = float(np.median(candidate_diffs)) if len(candidate_diffs) else 5.0
+    wear_step = max(wear_step, 1.0)
+
+    last_row = forecast_df.iloc[-1][FEATURE_COLUMNS].astype(float).to_dict()
+    tail = forecast_df[FEATURE_COLUMNS].tail(min(8, len(forecast_df))).astype(float)
+    feature_steps = {}
+    for column in FEATURE_COLUMNS:
+        if column == 'Tool wear [min]':
+            continue
+        column_diffs = np.diff(tail[column].to_numpy(dtype=float))
+        feature_steps[column] = float(np.median(column_diffs)) if len(column_diffs) else 0.0
+
+    rows = []
+    next_step = int(forecast_df['forecast_step'].max()) + 1
+    direction = 1 if query_wear >= float(last_row['Tool wear [min]']) else -1
+    next_wear = float(last_row['Tool wear [min]'])
+
+    while (direction > 0 and next_wear < query_wear) or (direction < 0 and next_wear > query_wear):
+        next_wear = next_wear + direction * wear_step
+        row = {'forecast_step': next_step}
+        for column in FEATURE_COLUMNS:
+            if column == 'Tool wear [min]':
+                row[column] = min(next_wear, query_wear) if direction > 0 else max(next_wear, query_wear)
+            else:
+                row[column] = float(last_row[column] + feature_steps[column] * (next_step - int(forecast_df['forecast_step'].max())))
+        rows.append(row)
+        next_step += 1
+        if len(rows) > 512:
+            break
+
+    if not rows:
+        return forecast_df
+
+    output = pd.concat([forecast_df, pd.DataFrame(rows)], ignore_index=True)
+    output['calibrated_extension'] = False
+    output.loc[output.index[-len(rows):], 'calibrated_extension'] = True
+    return output
+
+
 def predict_first_stage(
     project_root: str | Path,
     checkpoint_root: str | Path,
@@ -205,6 +269,7 @@ def predict_first_stage(
     query_wear: float,
     cycle_offset: Optional[int] = None,
     machine_type: str = 'L',
+    max_rollout_steps: int = 64,
 ) -> Stage1Prediction:
     project_root = ensure_path(project_root)
     checkpoint_root = ensure_path(checkpoint_root)
@@ -215,20 +280,54 @@ def predict_first_stage(
     model, config, _meta, mean, std = load_checkpoint_bundle(project_root, checkpoint_dir)
     history_df = load_history(history_csv, config['seq_len'])
 
-    history_values = history_df[FEATURE_COLUMNS].to_numpy(dtype=np.float32)
-    history_scaled = scale(history_values, mean, std)
+    rollout_limit = max(config['pred_len'], int(max_rollout_steps))
+    history_window = history_df[FEATURE_COLUMNS].copy()
+    forecast_chunks = []
+    total_steps = 0
+    current_wear = float(history_df['Tool wear [min]'].iloc[-1])
 
-    with torch.no_grad():
-        inputs = torch.tensor(history_scaled[None, :, :], dtype=torch.float32)
-        forecast_scaled, _ = model(inputs)
-        forecast_scaled = forecast_scaled.squeeze(0).cpu().numpy()
+    while total_steps < rollout_limit:
+        history_values = history_window.tail(config['seq_len']).to_numpy(dtype=np.float32)
+        history_scaled = scale(history_values, mean, std)
 
-    forecast_values = inverse_transform(forecast_scaled, mean, std)
-    forecast_df = pd.DataFrame(forecast_values, columns=FEATURE_COLUMNS)
-    forecast_df.insert(0, 'forecast_step', np.arange(1, len(forecast_df) + 1))
+        with torch.no_grad():
+            inputs = torch.tensor(history_scaled[None, :, :], dtype=torch.float32)
+            forecast_scaled, _ = model(inputs)
+            forecast_scaled = forecast_scaled.squeeze(0).cpu().numpy()
+
+        forecast_values = inverse_transform(forecast_scaled, mean, std)
+        chunk_df = pd.DataFrame(forecast_values, columns=FEATURE_COLUMNS)
+        chunk_df.insert(0, 'forecast_step', np.arange(total_steps + 1, total_steps + len(chunk_df) + 1))
+        forecast_chunks.append(chunk_df)
+        total_steps += len(chunk_df)
+
+        forecast_df = pd.concat(forecast_chunks, ignore_index=True)
+        selected_cycle = pick_cycle_for_query(current_wear, query_wear, cycle_offset)
+        cycle_df = split_into_cycles(forecast_df)
+        candidate = cycle_df[cycle_df['cycle_offset'] == selected_cycle]
+        if not candidate.empty:
+            wear = candidate['Tool wear [min]'].to_numpy()
+            if np.nanmin(wear) <= query_wear <= np.nanmax(wear):
+                forecast_df = candidate.drop(columns=['cycle_offset']).reset_index(drop=True)
+                break
+            if cycle_df['cycle_offset'].max() > selected_cycle:
+                forecast_df = candidate.drop(columns=['cycle_offset']).reset_index(drop=True)
+                break
+
+        history_window = pd.concat([history_window, chunk_df[FEATURE_COLUMNS]], ignore_index=True).tail(config['seq_len']).reset_index(drop=True)
+
+        # Stop early if the model has clearly saturated and additional rolling
+        # calls are no longer moving tool wear toward the requested point.
+        if len(forecast_df) >= config['pred_len'] * 3:
+            recent_wear = forecast_df['Tool wear [min]'].tail(config['pred_len'] * 2).to_numpy()
+            if query_wear > current_wear and np.nanmax(recent_wear) < query_wear and np.nanmax(np.diff(recent_wear)) <= 1e-4:
+                break
+
+    if 'forecast_df' not in locals():
+        forecast_df = pd.concat(forecast_chunks, ignore_index=True)
+    forecast_df = extend_forecast_to_query_wear(history_df, forecast_df, query_wear)
     forecast_df = split_into_cycles(forecast_df)
 
-    current_wear = float(history_df['Tool wear [min]'].iloc[-1])
     selected_cycle = pick_cycle_for_query(current_wear, query_wear, cycle_offset)
     candidate = forecast_df[forecast_df['cycle_offset'] == selected_cycle].reset_index(drop=True)
     if candidate.empty:
@@ -241,6 +340,8 @@ def predict_first_stage(
     query_result['current_wear'] = current_wear
     query_result['cycle_offset_used'] = selected_cycle
     query_result['machine_type'] = machine_type
+    query_result['rollout_steps'] = int(len(forecast_df))
+    query_result['used_calibrated_extension'] = bool(forecast_df.get('calibrated_extension', pd.Series(dtype=bool)).fillna(False).any())
 
     return Stage1Prediction(
         history=history_df,
@@ -388,6 +489,7 @@ def run_two_stage_prediction(
     trainer_script: str | Path | None = None,
     cycle_offset: Optional[int] = None,
     machine_type: str = 'L',
+    max_rollout_steps: int = 64,
 ) -> tuple[Stage1Prediction, Dict[str, Any]]:
     stage1 = predict_first_stage(
         project_root=project_root,
@@ -397,6 +499,7 @@ def run_two_stage_prediction(
         query_wear=query_wear,
         cycle_offset=cycle_offset,
         machine_type=machine_type,
+        max_rollout_steps=max_rollout_steps,
     )
     second_stage_predictor = build_or_load_second_stage_predictor(second_stage_model_path, trainer_script)
 
@@ -416,6 +519,7 @@ def run_two_stage_prediction(
             'stage2_model_file': str(second_stage_model_path),
             'seq_len': stage1.config['seq_len'],
             'pred_len': stage1.config['pred_len'],
+            'rollout_steps': stage1.query_result.get('rollout_steps'),
         },
     }
     return stage1, result
