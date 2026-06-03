@@ -12,6 +12,7 @@ import MaintenancePage from "../pages/maintenance/MaintenancePage";
 import PredictionCenterPage from "../pages/prediction/PredictionCenterPage";
 import SchedulePage from "../pages/schedule/SchedulePage";
 import TaskPage from "../pages/tasks/TaskPage";
+import TransferPage from "../pages/transfer/TransferPage";
 import { GuestOnly, RequireAuth } from "./RouteGuards";
 import { routeConfig } from "./routeConfig";
 
@@ -86,6 +87,10 @@ export const router = createBrowserRouter([
             path: "/dispatch",
             element: <DispatchPage />,
           },
+          {
+            path: "/transfer",
+            element: <TransferPage />,
+          },
           ...routeConfig
             .filter(
               (route) =>
@@ -98,6 +103,7 @@ export const router = createBrowserRouter([
                   "/tasks",
                   "/schedule",
                   "/dispatch",
+                  "/transfer",
                 ].includes(route.path),
             )
             .map((route) => ({
