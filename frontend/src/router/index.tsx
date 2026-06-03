@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
+import AlertPage from "../pages/alerts/AlertPage";
 import BasicLayout from "../layouts/BasicLayout";
 import LoginLayout from "../layouts/LoginLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
@@ -8,7 +9,9 @@ import DeviceDetailPage from "../pages/devices/DeviceDetailPage";
 import DeviceListPage from "../pages/devices/DeviceListPage";
 import HealthPage from "../pages/health/HealthPage";
 import LoginPage from "../pages/login/LoginPage";
+import LogPage from "../pages/logs/LogPage";
 import MaintenancePage from "../pages/maintenance/MaintenancePage";
+import ModelPage from "../pages/models/ModelPage";
 import PredictionCenterPage from "../pages/prediction/PredictionCenterPage";
 import SchedulePage from "../pages/schedule/SchedulePage";
 import TaskPage from "../pages/tasks/TaskPage";
@@ -91,6 +94,18 @@ export const router = createBrowserRouter([
             path: "/transfer",
             element: <TransferPage />,
           },
+          {
+            path: "/alerts",
+            element: <AlertPage />,
+          },
+          {
+            path: "/models",
+            element: <ModelPage />,
+          },
+          {
+            path: "/logs",
+            element: <LogPage />,
+          },
           ...routeConfig
             .filter(
               (route) =>
@@ -104,6 +119,9 @@ export const router = createBrowserRouter([
                   "/schedule",
                   "/dispatch",
                   "/transfer",
+                  "/alerts",
+                  "/models",
+                  "/logs",
                 ].includes(route.path),
             )
             .map((route) => ({

@@ -11,3 +11,20 @@ export interface AlertEvent {
   handled_by: string | null;
   handled_time: string | null;
 }
+
+export interface AlertHandleResponse {
+  alert: AlertEvent;
+  message: string;
+}
+
+export interface ScheduleLog {
+  id: number;
+  schedule_time: string;
+  plan_id: string | null;
+  task_id: string;
+  from_device: string | null;
+  to_device: string | null;
+  reason: string | null;
+  operator: string | null;
+  detail: Record<string, unknown> | null;
+}
