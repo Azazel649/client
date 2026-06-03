@@ -462,6 +462,17 @@ a {
   color: var(--color-muted);
 }
 
+.schedule-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.schedule-gantt-chart {
+  width: 100%;
+  min-height: 440px;
+}
+
 .page-placeholder h1 {
   margin-top: 0;
   letter-spacing: 0;
