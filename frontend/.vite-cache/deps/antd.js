@@ -1,16 +1,18 @@
 "use client";
 import {
   require_client
-} from "./chunk-VEJ3I6SO.js";
+} from "./chunk-BFCJX2FH.js";
 import {
   require_react_dom
-} from "./chunk-3N75UCEE.js";
+} from "./chunk-7SRSSUGM.js";
+import {
+  require_react
+} from "./chunk-RTMGKO7Z.js";
 import {
   __commonJS,
   __publicField,
-  __toESM,
-  require_react
-} from "./chunk-F2AHKDO4.js";
+  __toESM
+} from "./chunk-DC5AMYBS.js";
 
 // node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({

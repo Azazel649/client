@@ -16,7 +16,7 @@ export const request = axios.create({
 request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = window.localStorage.getItem(TOKEN_KEY);
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.set("Authorization", `Bearer ${token}`);
   }
   return config;
 });
@@ -30,6 +30,7 @@ request.interceptors.response.use(
         window.location.assign("/login");
       }
     }
+
     const message = error.response?.data?.detail ?? error.message ?? "请求失败";
     return Promise.reject(new Error(message));
   },

@@ -4,6 +4,7 @@ import BasicLayout from "../layouts/BasicLayout";
 import LoginLayout from "../layouts/LoginLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import LoginPage from "../pages/login/LoginPage";
+import { GuestOnly, RequireAuth } from "./RouteGuards";
 import { routeConfig } from "./routeConfig";
 
 function ModulePlaceholder({ title, description }: { title: string; description: string }) {
@@ -22,27 +23,37 @@ export const router = createBrowserRouter([
     element: <Navigate to="/dashboard" replace />,
   },
   {
-    element: <LoginLayout />,
+    element: <GuestOnly />,
     children: [
       {
-        path: "/login",
-        element: <LoginPage />,
+        element: <LoginLayout />,
+        children: [
+          {
+            path: "/login",
+            element: <LoginPage />,
+          },
+        ],
       },
     ],
   },
   {
-    element: <BasicLayout />,
+    element: <RequireAuth />,
     children: [
       {
-        path: "/dashboard",
-        element: <DashboardPage />,
+        element: <BasicLayout />,
+        children: [
+          {
+            path: "/dashboard",
+            element: <DashboardPage />,
+          },
+          ...routeConfig
+            .filter((route) => route.path !== "/dashboard")
+            .map((route) => ({
+              path: route.path,
+              element: <ModulePlaceholder title={route.label} description={route.description} />,
+            })),
+        ],
       },
-      ...routeConfig
-        .filter((route) => route.path !== "/dashboard")
-        .map((route) => ({
-          path: route.path,
-          element: <ModulePlaceholder title={route.label} description={route.description} />,
-        })),
     ],
   },
   {
