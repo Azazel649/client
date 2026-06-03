@@ -1,3 +1,4 @@
+from .alert_schema import AlertEventResponse, AlertHandleResponse, ScheduleLogResponse
 from .auth_schema import ChangePasswordRequest, LoginRequest, LoginResponse, MessageResponse, UserInfoResponse
 from .device_schema import (
     DeviceCurrentStatusResponse,
@@ -10,6 +11,13 @@ from .device_schema import (
 from .data_replay_schema import DataReplayResetResponse, DataReplayStatusResponse, DataReplayStepResponse, ReplayedOperationResponse
 from .dispatch_schema import DispatchDeviceState, DispatchGanttResponse, DispatchPlanResponse, DispatchRunRequest
 from .health_schema import HealthEvaluationResponse, HealthTrendPoint, HealthTrendResponse
+from .model_schema import (
+    ModelMetricResponse,
+    ModelRegisterRequest,
+    ModelRegistryResponse,
+    ModelReloadResponse,
+    ModelStatusResponse,
+)
 from .prediction_schema import FaultProbabilityResponse, PredictionResultResponse, PredictionRunResponse, PredictionTriggerRequest
 from .schedule_schema import (
     ScheduleAdjustRequest,
@@ -33,6 +41,8 @@ from .transfer_schema import (
 
 __all__ = [
     "ChangePasswordRequest",
+    "AlertEventResponse",
+    "AlertHandleResponse",
     "DeviceCurrentStatusResponse",
     "DeviceDetailResponse",
     "DeviceResponse",
@@ -52,6 +62,11 @@ __all__ = [
     "LoginRequest",
     "LoginResponse",
     "MessageResponse",
+    "ModelMetricResponse",
+    "ModelRegisterRequest",
+    "ModelRegistryResponse",
+    "ModelReloadResponse",
+    "ModelStatusResponse",
     "MonitorCheckResponse",
     "OperationLogResponse",
     "OperationTrendResponse",
@@ -65,6 +80,7 @@ __all__ = [
     "ScheduleAdjustRequest",
     "ScheduleGanttItem",
     "ScheduleGanttResponse",
+    "ScheduleLogResponse",
     "ScheduleMetricsResponse",
     "ScheduleOptimizeRequest",
     "SchedulePlanItemResponse",

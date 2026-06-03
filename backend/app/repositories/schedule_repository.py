@@ -69,6 +69,11 @@ class ScheduleLogRepository(BaseRepository[ScheduleLog]):
     def save_schedule_log(self, log: ScheduleLog) -> ScheduleLog:
         return self.add(log)
 
-    def get_schedule_logs(self, limit: int = 100) -> list[ScheduleLog]:
-        statement = select(ScheduleLog).order_by(ScheduleLog.schedule_time.desc()).limit(limit)
+    def get_schedule_logs(self, limit: int = 100, task_id: str | None = None, reason: str | None = None) -> list[ScheduleLog]:
+        statement = select(ScheduleLog)
+        if task_id is not None:
+            statement = statement.where(ScheduleLog.task_id == task_id)
+        if reason is not None:
+            statement = statement.where(ScheduleLog.reason == reason)
+        statement = statement.order_by(ScheduleLog.schedule_time.desc()).limit(limit)
         return list(self.db.scalars(statement).all())

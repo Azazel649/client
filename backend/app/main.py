@@ -4,12 +4,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .api import (
+    alert_router,
     auth_router,
     data_replay_router,
     device_router,
     dispatch_router,
     health_router,
     maintenance_router,
+    model_router,
     prediction_router,
     schedule_router,
     task_router,
@@ -51,11 +53,13 @@ if settings.cors_origins:
 
 
 app.include_router(auth_router)
+app.include_router(alert_router)
 app.include_router(device_router)
 app.include_router(data_replay_router)
 app.include_router(prediction_router)
 app.include_router(health_router)
 app.include_router(maintenance_router)
+app.include_router(model_router)
 app.include_router(task_router)
 app.include_router(schedule_router)
 app.include_router(dispatch_router)
