@@ -9,6 +9,7 @@ import HealthPage from "../pages/health/HealthPage";
 import LoginPage from "../pages/login/LoginPage";
 import MaintenancePage from "../pages/maintenance/MaintenancePage";
 import PredictionCenterPage from "../pages/prediction/PredictionCenterPage";
+import TaskPage from "../pages/tasks/TaskPage";
 import { GuestOnly, RequireAuth } from "./RouteGuards";
 import { routeConfig } from "./routeConfig";
 
@@ -71,8 +72,14 @@ export const router = createBrowserRouter([
             path: "/maintenance",
             element: <MaintenancePage />,
           },
+          {
+            path: "/tasks",
+            element: <TaskPage />,
+          },
           ...routeConfig
-            .filter((route) => !["/dashboard", "/devices", "/prediction", "/health", "/maintenance"].includes(route.path))
+            .filter(
+              (route) => !["/dashboard", "/devices", "/prediction", "/health", "/maintenance", "/tasks"].includes(route.path),
+            )
             .map((route) => ({
               path: route.path,
               element: <ModulePlaceholder title={route.label} description={route.description} />,
