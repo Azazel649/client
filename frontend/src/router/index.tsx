@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import BasicLayout from "../layouts/BasicLayout";
 import LoginLayout from "../layouts/LoginLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
+import DispatchPage from "../pages/dispatch/DispatchPage";
 import DeviceDetailPage from "../pages/devices/DeviceDetailPage";
 import DeviceListPage from "../pages/devices/DeviceListPage";
 import HealthPage from "../pages/health/HealthPage";
@@ -81,12 +82,23 @@ export const router = createBrowserRouter([
             path: "/schedule",
             element: <SchedulePage />,
           },
+          {
+            path: "/dispatch",
+            element: <DispatchPage />,
+          },
           ...routeConfig
             .filter(
               (route) =>
-                !["/dashboard", "/devices", "/prediction", "/health", "/maintenance", "/tasks", "/schedule"].includes(
-                  route.path,
-                ),
+                ![
+                  "/dashboard",
+                  "/devices",
+                  "/prediction",
+                  "/health",
+                  "/maintenance",
+                  "/tasks",
+                  "/schedule",
+                  "/dispatch",
+                ].includes(route.path),
             )
             .map((route) => ({
               path: route.path,

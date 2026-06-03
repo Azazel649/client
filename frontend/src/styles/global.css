@@ -473,6 +473,17 @@ a {
   min-height: 440px;
 }
 
+.dispatch-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dispatch-matrix-chart {
+  width: 100%;
+  min-height: 420px;
+}
+
 .page-placeholder h1 {
   margin-top: 0;
   letter-spacing: 0;
