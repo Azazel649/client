@@ -7,6 +7,7 @@ import DeviceDetailPage from "../pages/devices/DeviceDetailPage";
 import DeviceListPage from "../pages/devices/DeviceListPage";
 import HealthPage from "../pages/health/HealthPage";
 import LoginPage from "../pages/login/LoginPage";
+import MaintenancePage from "../pages/maintenance/MaintenancePage";
 import PredictionCenterPage from "../pages/prediction/PredictionCenterPage";
 import { GuestOnly, RequireAuth } from "./RouteGuards";
 import { routeConfig } from "./routeConfig";
@@ -66,8 +67,12 @@ export const router = createBrowserRouter([
             path: "/health",
             element: <HealthPage />,
           },
+          {
+            path: "/maintenance",
+            element: <MaintenancePage />,
+          },
           ...routeConfig
-            .filter((route) => !["/dashboard", "/devices", "/prediction", "/health"].includes(route.path))
+            .filter((route) => !["/dashboard", "/devices", "/prediction", "/health", "/maintenance"].includes(route.path))
             .map((route) => ({
               path: route.path,
               element: <ModulePlaceholder title={route.label} description={route.description} />,
