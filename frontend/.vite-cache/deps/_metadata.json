@@ -2,64 +2,79 @@
   "hash": "44d5ecf8",
   "configHash": "47bd3943",
   "lockfileHash": "575220f4",
-  "browserHash": "405e04b7",
+  "browserHash": "6dcb60ac",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "cd4dc6c7",
+      "fileHash": "e5741bfc",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "dca29e3f",
+      "fileHash": "da52b2f5",
       "needsInterop": true
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "5462fd83",
+      "fileHash": "0bbae017",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "652133b5",
+      "fileHash": "159e5437",
       "needsInterop": true
     },
     "antd": {
       "src": "../../node_modules/antd/es/index.js",
       "file": "antd.js",
-      "fileHash": "1e25aa5f",
+      "fileHash": "09cde420",
       "needsInterop": false
     },
     "lucide-react": {
       "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
       "file": "lucide-react.js",
-      "fileHash": "71f7e931",
+      "fileHash": "c0375d2e",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "cf7fcf4b",
+      "fileHash": "9cbe320f",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.mjs",
       "file": "react-router-dom.js",
-      "fileHash": "332d7d05",
+      "fileHash": "dd057bcb",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "d8ad3e8d",
+      "fileHash": "5f431ebf",
+      "needsInterop": false
+    },
+    "dayjs": {
+      "src": "../../node_modules/dayjs/dayjs.min.js",
+      "file": "dayjs.js",
+      "fileHash": "3c6d9bf5",
+      "needsInterop": true
+    },
+    "echarts": {
+      "src": "../../node_modules/echarts/index.js",
+      "file": "echarts.js",
+      "fileHash": "1c70353e",
       "needsInterop": false
     }
   },
   "chunks": {
+    "chunk-AWB4MNJF": {
+      "file": "chunk-AWB4MNJF.js"
+    },
     "chunk-BFCJX2FH": {
       "file": "chunk-BFCJX2FH.js"
     },
