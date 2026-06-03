@@ -1,0 +1,19 @@
+.ant-menu {
+  border-inline-end: 0 !important;
+}
+
+.ant-menu-item {
+  border-radius: 6px;
+}
+
+.ant-menu-item .lucide {
+  vertical-align: middle;
+}
+
+.ant-btn {
+  border-radius: 6px;
+}
+
+.ant-card {
+  border-color: var(--color-border);
+}

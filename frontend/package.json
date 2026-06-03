@@ -9,9 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^6.4.3",
+    "axios": "^1.17.0",
+    "dayjs": "^1.11.21",
+    "echarts": "^6.1.0",
+    "lucide-react": "^0.468.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "lucide-react": "^0.468.0"
+    "react-router-dom": "^7.16.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.2",
