@@ -327,6 +327,70 @@ a {
   min-height: 420px;
 }
 
+.prediction-page,
+.health-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inline-select {
+  min-width: 240px;
+}
+
+.short-select {
+  min-width: 96px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.fault-probability-chart,
+.health-trend-chart {
+  width: 100%;
+  min-height: 340px;
+}
+
+.health-matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.health-device-card {
+  cursor: pointer;
+  border-radius: var(--radius-panel);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.health-device-card:hover,
+.health-device-card-active {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-panel);
+  transform: translateY(-1px);
+}
+
+.health-card-title,
+.health-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.health-card-title {
+  margin-bottom: 12px;
+}
+
+.health-card-row {
+  margin-top: 10px;
+  color: var(--color-muted);
+}
+
 .page-placeholder h1 {
   margin-top: 0;
   letter-spacing: 0;

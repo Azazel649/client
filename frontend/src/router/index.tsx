@@ -5,7 +5,9 @@ import LoginLayout from "../layouts/LoginLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import DeviceDetailPage from "../pages/devices/DeviceDetailPage";
 import DeviceListPage from "../pages/devices/DeviceListPage";
+import HealthPage from "../pages/health/HealthPage";
 import LoginPage from "../pages/login/LoginPage";
+import PredictionCenterPage from "../pages/prediction/PredictionCenterPage";
 import { GuestOnly, RequireAuth } from "./RouteGuards";
 import { routeConfig } from "./routeConfig";
 
@@ -56,8 +58,16 @@ export const router = createBrowserRouter([
             path: "/devices/:deviceId",
             element: <DeviceDetailPage />,
           },
+          {
+            path: "/prediction",
+            element: <PredictionCenterPage />,
+          },
+          {
+            path: "/health",
+            element: <HealthPage />,
+          },
           ...routeConfig
-            .filter((route) => !["/dashboard", "/devices"].includes(route.path))
+            .filter((route) => !["/dashboard", "/devices", "/prediction", "/health"].includes(route.path))
             .map((route) => ({
               path: route.path,
               element: <ModulePlaceholder title={route.label} description={route.description} />,
