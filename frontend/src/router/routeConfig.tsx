@@ -49,10 +49,10 @@ export const routeConfig: AppRouteConfig[] = [
   {
     key: "devices",
     path: "/devices",
-    label: "设备管理",
+    label: "设备状态监控",
     group: "运行总览",
     icon: <Factory size={18} />,
-    description: "沉淀设备台账、类型、产线与实时状态的统一入口。",
+    description: "展示设备实时状态、HI、RUL、运行参数与风险信息。",
   },
   {
     key: "prediction",

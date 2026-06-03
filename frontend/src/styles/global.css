@@ -293,6 +293,40 @@ a {
   font-size: 12px;
 }
 
+.device-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.device-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.6fr) repeat(4, minmax(140px, 1fr)) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.detail-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.device-detail-tabs .ant-tabs-nav {
+  margin-bottom: 16px;
+}
+
+.device-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.operation-trend-chart {
+  width: 100%;
+  min-height: 420px;
+}
+
 .page-placeholder h1 {
   margin-top: 0;
   letter-spacing: 0;
@@ -330,6 +364,15 @@ a {
   .dashboard-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .device-filter-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-actions {
+    width: 100%;
+    flex-wrap: wrap;
   }
 
   .app-content {

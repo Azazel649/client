@@ -3,6 +3,8 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import BasicLayout from "../layouts/BasicLayout";
 import LoginLayout from "../layouts/LoginLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
+import DeviceDetailPage from "../pages/devices/DeviceDetailPage";
+import DeviceListPage from "../pages/devices/DeviceListPage";
 import LoginPage from "../pages/login/LoginPage";
 import { GuestOnly, RequireAuth } from "./RouteGuards";
 import { routeConfig } from "./routeConfig";
@@ -46,8 +48,16 @@ export const router = createBrowserRouter([
             path: "/dashboard",
             element: <DashboardPage />,
           },
+          {
+            path: "/devices",
+            element: <DeviceListPage />,
+          },
+          {
+            path: "/devices/:deviceId",
+            element: <DeviceDetailPage />,
+          },
           ...routeConfig
-            .filter((route) => route.path !== "/dashboard")
+            .filter((route) => !["/dashboard", "/devices"].includes(route.path))
             .map((route) => ({
               path: route.path,
               element: <ModulePlaceholder title={route.label} description={route.description} />,
