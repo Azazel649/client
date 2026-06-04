@@ -35,7 +35,15 @@ class DeviceService:
 
     def list_current_status(self) -> list[DeviceCurrentStatusResponse]:
         rows = self.db.execute(text("SELECT * FROM v_device_current_status ORDER BY id")).mappings().all()
-        return [self._merge_redis_status(self._status_from_row(row)) for row in rows]
+        statuses: list[DeviceCurrentStatusResponse] = []
+        seen_device_ids: set[str] = set()
+        for row in rows:
+            device_id = row["id"]
+            if device_id in seen_device_ids:
+                continue
+            seen_device_ids.add(device_id)
+            statuses.append(self._merge_redis_status(self._status_from_row(row)))
+        return statuses
 
     def get_current_status(self, device_id: str) -> DeviceCurrentStatusResponse | None:
         row = self.db.execute(

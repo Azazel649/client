@@ -28,10 +28,12 @@ def get_replay_status(
 @router.post("/next", response_model=DataReplayStepResponse)
 def replay_next_batch(
     batch_size: int | None = Query(default=None, ge=1, le=500),
+    prediction_interval: float | None = Query(default=5, ge=1, le=100),
+    auto_predict: bool = Query(default=True),
     _current_user: AdminUser = Depends(require_admin),
     service: DataReplayService = Depends(get_data_replay_service),
 ):
-    return service.replay_next_batch(batch_size=batch_size)
+    return service.replay_next_batch(batch_size=batch_size, prediction_interval=prediction_interval, auto_predict=auto_predict)
 
 
 @router.post("/reset", response_model=DataReplayResetResponse)

@@ -270,6 +270,7 @@ def predict_first_stage(
     cycle_offset: Optional[int] = None,
     machine_type: str = 'L',
     max_rollout_steps: int = 64,
+    allow_calibrated_extension: bool = True,
 ) -> Stage1Prediction:
     project_root = ensure_path(project_root)
     checkpoint_root = ensure_path(checkpoint_root)
@@ -325,7 +326,8 @@ def predict_first_stage(
 
     if 'forecast_df' not in locals():
         forecast_df = pd.concat(forecast_chunks, ignore_index=True)
-    forecast_df = extend_forecast_to_query_wear(history_df, forecast_df, query_wear)
+    if allow_calibrated_extension:
+        forecast_df = extend_forecast_to_query_wear(history_df, forecast_df, query_wear)
     forecast_df = split_into_cycles(forecast_df)
 
     selected_cycle = pick_cycle_for_query(current_wear, query_wear, cycle_offset)
@@ -490,6 +492,7 @@ def run_two_stage_prediction(
     cycle_offset: Optional[int] = None,
     machine_type: str = 'L',
     max_rollout_steps: int = 64,
+    allow_calibrated_extension: bool = True,
 ) -> tuple[Stage1Prediction, Dict[str, Any]]:
     stage1 = predict_first_stage(
         project_root=project_root,
@@ -500,6 +503,7 @@ def run_two_stage_prediction(
         cycle_offset=cycle_offset,
         machine_type=machine_type,
         max_rollout_steps=max_rollout_steps,
+        allow_calibrated_extension=allow_calibrated_extension,
     )
     second_stage_predictor = build_or_load_second_stage_predictor(second_stage_model_path, trainer_script)
 

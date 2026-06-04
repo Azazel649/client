@@ -1,16 +1,23 @@
-import { Alert, Button, Card, Col, Drawer, Form, InputNumber, Row, Select, Skeleton, Space, Typography, message } from "antd";
+import { Alert, Button, Card, Col, Descriptions, Drawer, Form, InputNumber, Row, Select, Skeleton, Space, Typography, message } from "antd";
 import { Play, RefreshCcw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
+import { replayNextStep } from "../../api/dataReplayApi";
 import { getCurrentDeviceStatus } from "../../api/deviceApi";
 import { getLatestPrediction, triggerPrediction } from "../../api/predictionApi";
+import AutoPredictionChart from "../../components/prediction/AutoPredictionChart";
 import FaultProbabilityChart from "../../components/prediction/FaultProbabilityChart";
 import PredictedParamsTable from "../../components/prediction/PredictedParamsTable";
 import PredictionResultTable from "../../components/prediction/PredictionResultTable";
+import type { DataReplayStep } from "../../types/dataReplay";
 import type { DeviceCurrentStatus } from "../../types/device";
 import type { PredictionResult, PredictionTriggerRequest } from "../../types/prediction";
 
 const { Text, Title } = Typography;
+
+interface SimulationFormValues {
+  prediction_interval: number;
+}
 
 async function safeLatestPrediction(deviceId: string) {
   try {
@@ -20,6 +27,29 @@ async function safeLatestPrediction(deviceId: string) {
   }
 }
 
+function uniqueByDevice(devices: DeviceCurrentStatus[]) {
+  const seen = new Set<string>();
+  return devices.filter((device) => {
+    if (seen.has(device.id)) {
+      return false;
+    }
+    seen.add(device.id);
+    return true;
+  });
+}
+
+function uniquePredictions(predictions: PredictionResult[]) {
+  const seen = new Set<string>();
+  return predictions.filter((prediction) => {
+    const key = `${prediction.device_id}-${prediction.id}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
 export default function PredictionCenterPage() {
   const [devices, setDevices] = useState<DeviceCurrentStatus[]>([]);
   const [predictions, setPredictions] = useState<PredictionResult[]>([]);
@@ -27,20 +57,24 @@ export default function PredictionCenterPage() {
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>();
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
+  const [simulating, setSimulating] = useState(false);
+  const [simulation, setSimulation] = useState<DataReplayStep | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm<PredictionTriggerRequest>();
+  const [simulationForm] = Form.useForm<SimulationFormValues>();
 
   async function loadPredictions() {
     setLoading(true);
     setError(null);
     try {
       const deviceResponse = await getCurrentDeviceStatus();
-      setDevices(deviceResponse);
-      setSelectedDeviceId((current) => current ?? deviceResponse[0]?.id);
+      const uniqueDevices = uniqueByDevice(deviceResponse);
+      setDevices(uniqueDevices);
+      setSelectedDeviceId((current) => current ?? uniqueDevices[0]?.id);
 
-      const latest = await Promise.all(deviceResponse.map((device) => safeLatestPrediction(device.id)));
-      setPredictions(latest.filter((item): item is PredictionResult => Boolean(item)));
+      const latest = await Promise.all(uniqueDevices.map((device) => safeLatestPrediction(device.id)));
+      setPredictions(uniquePredictions(latest.filter((item): item is PredictionResult => Boolean(item))));
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : "故障预测数据加载失败");
     } finally {
@@ -62,8 +96,7 @@ export default function PredictionCenterPage() {
     return {
       latestTime: latestTime ? new Date(latestTime).toLocaleString() : "-",
       modelVersion: predictions.find((item) => item.model_version)?.model_version ?? "-",
-      todayCount: predictions.filter((item) => new Date(item.predict_time).toDateString() === new Date().toDateString())
-        .length,
+      todayCount: predictions.filter((item) => new Date(item.predict_time).toDateString() === new Date().toDateString()).length,
       abnormalCount,
     };
   }, [predictions]);
@@ -77,13 +110,30 @@ export default function PredictionCenterPage() {
     setRunning(true);
     try {
       const response = await triggerPrediction(selectedDeviceId, values);
-      messageApi.success("预测完成");
+      messageApi.success("主动预测完成，结果未写入数据库");
       setSelectedPrediction(response.prediction);
-      await loadPredictions();
     } catch (runError) {
       messageApi.error(runError instanceof Error ? runError.message : "预测失败");
     } finally {
       setRunning(false);
+    }
+  }
+
+  async function handleSimulate(values: SimulationFormValues) {
+    setSimulating(true);
+    try {
+      const response = await replayNextStep({ prediction_interval: values.prediction_interval, auto_predict: true });
+      setSimulation(response);
+      const generated = response.auto_predictions.length;
+      if (generated > 0) {
+        setSelectedPrediction(response.auto_predictions[generated - 1].prediction);
+      }
+      messageApi.success(`模拟完成，生成 ${generated} 条自动预测`);
+      await loadPredictions();
+    } catch (simulateError) {
+      messageApi.error(simulateError instanceof Error ? simulateError.message : "模拟下一步失败");
+    } finally {
+      setSimulating(false);
     }
   }
 
@@ -125,7 +175,7 @@ export default function PredictionCenterPage() {
         </Col>
       </Row>
 
-      <Card className="dashboard-card" title="手动触发预测">
+      <Card className="dashboard-card" title="主动预测">
         <Form form={form} layout="inline" onFinish={handleTrigger}>
           <Form.Item label="设备" required>
             <Select
@@ -153,24 +203,58 @@ export default function PredictionCenterPage() {
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" icon={<Play size={16} />} loading={running}>
-              触发预测
+              执行主动预测
             </Button>
           </Form.Item>
         </Form>
       </Card>
 
-      <Card className="dashboard-card" title="设备预测结果">
+      <Card className="dashboard-card" title="模拟下一步与自动预测">
+        <Space direction="vertical" size={16} className="full-width">
+          <Form form={simulationForm} layout="inline" initialValues={{ prediction_interval: 5 }} onFinish={handleSimulate}>
+            <Form.Item label="预测间隔" name="prediction_interval" rules={[{ required: true, message: "请输入预测间隔" }]}>
+              <InputNumber min={1} max={100} precision={0} addonAfter="min" />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" icon={<Play size={16} />} loading={simulating}>
+                模拟下一步
+              </Button>
+            </Form.Item>
+          </Form>
+
+          {simulation ? (
+            <Space direction="vertical" size={16} className="full-width">
+              <Descriptions bordered size="small" column={{ xs: 1, md: 2, xl: 4 }}>
+                <Descriptions.Item label="历史尾点">
+                  {simulation.history_before_wear === null ? "-" : simulation.history_before_wear}
+                </Descriptions.Item>
+                <Descriptions.Item label="预测极限">
+                  {simulation.prediction_limit_wear === null ? "-" : simulation.prediction_limit_wear.toFixed(2)}
+                </Descriptions.Item>
+                <Descriptions.Item label="预测间隔">
+                  {simulation.prediction_interval === null ? "-" : simulation.prediction_interval}
+                </Descriptions.Item>
+                <Descriptions.Item label="追加真实数据">
+                  {simulation.operations[0] ? `Tool wear ${simulation.operations[0].tool_wear}` : "-"}
+                </Descriptions.Item>
+              </Descriptions>
+              <AutoPredictionChart runs={simulation.auto_predictions} />
+              <PredictionResultTable
+                predictions={simulation.auto_predictions.map((item) => item.prediction)}
+                onSelect={setSelectedPrediction}
+              />
+            </Space>
+          ) : null}
+        </Space>
+      </Card>
+
+      <Card className="dashboard-card" title="设备自动预测结果">
         <Skeleton loading={loading && predictions.length === 0} active paragraph={{ rows: 8 }}>
           <PredictionResultTable predictions={predictions} onSelect={setSelectedPrediction} />
         </Skeleton>
       </Card>
 
-      <Drawer
-        width={720}
-        title="预测详情"
-        open={Boolean(selectedPrediction)}
-        onClose={() => setSelectedPrediction(null)}
-      >
+      <Drawer width={720} title="预测详情" open={Boolean(selectedPrediction)} onClose={() => setSelectedPrediction(null)}>
         <Space direction="vertical" size={16} className="full-width">
           <FaultProbabilityChart prediction={selectedPrediction} />
           <Card title="AMD 预测参数" className="dashboard-card">

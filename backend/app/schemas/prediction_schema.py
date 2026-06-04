@@ -41,5 +41,5 @@ class FaultProbabilityResponse(BaseModel):
 
 class PredictionRunResponse(BaseModel):
     prediction: PredictionResultResponse
-    health: HealthEvaluationResponse
+    health: HealthEvaluationResponse | None = None
     stage1_query_result: dict

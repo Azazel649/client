@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from redis import Redis
 from sqlalchemy.orm import Session
 
-from ..algorithms.prediction.fault_prediction_pipeline import FaultPredictionPipeline
+from ..algorithms.prediction.fault_prediction_pipeline import FaultPredictionOutput, FaultPredictionPipeline
 from ..models.prediction import PredictionResult
 from ..repositories.device_repository import DeviceRepository
 from ..repositories.prediction_repository import PredictionRepository
@@ -28,14 +28,65 @@ class PredictionService:
     ) -> PredictionRunResponse:
         device = self.devices.get_by_id(device_id)
         if device is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="设备不存在")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="device not found")
         machine_type = (machine_type or device.device_type or "L").upper()
         output = self.pipeline.run_fault_prediction(
             device_id=device_id,
             machine_type=machine_type,
             query_wear=query_wear,
             history_csv=history_csv,
+            allow_calibrated_extension=True,
         )
+        return PredictionRunResponse(
+            prediction=self._transient_prediction_response(device_id, output),
+            health=None,
+            stage1_query_result=output.stage1_result,
+        )
+
+    def execute_auto_short_horizon(
+        self,
+        device_id: str,
+        interval_wear: float,
+        machine_type: str | None = None,
+        history_csv: str | None = None,
+    ) -> list[PredictionRunResponse]:
+        device = self.devices.get_by_id(device_id)
+        if device is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="device not found")
+        machine_type = (machine_type or device.device_type or "L").upper()
+        outputs = self.pipeline.run_short_horizon_predictions(
+            device_id=device_id,
+            machine_type=machine_type,
+            interval_wear=interval_wear,
+            history_csv=history_csv,
+        )
+        return [self._persist_prediction_output(device_id, output) for output in outputs]
+
+    def get_latest_prediction(self, device_id: str) -> PredictionResultResponse:
+        self._require_device(device_id)
+        prediction = self.predictions.get_latest_prediction(device_id)
+        if prediction is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="prediction result not found")
+        return PredictionResultResponse.model_validate(prediction)
+
+    def get_prediction_history(self, device_id: str, limit: int = 50) -> list[PredictionResultResponse]:
+        self._require_device(device_id)
+        return [PredictionResultResponse.model_validate(item) for item in self.predictions.get_prediction_history(device_id, limit)]
+
+    def get_fault_probabilities(self, device_id: str) -> FaultProbabilityResponse:
+        prediction = self.predictions.get_latest_prediction(device_id)
+        if prediction is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="prediction result not found")
+        return FaultProbabilityResponse(
+            device_id=device_id,
+            p_no_failure=prediction.p_no_failure or 0,
+            p_heat=prediction.p_heat or 0,
+            p_power=prediction.p_power or 0,
+            p_overstrain=prediction.p_overstrain or 0,
+            p_tool_wear=prediction.p_tool_wear or 0,
+        )
+
+    def _persist_prediction_output(self, device_id: str, output: FaultPredictionOutput) -> PredictionRunResponse:
         prediction = PredictionResult(
             device_id=device_id,
             predict_time=output.predict_time,
@@ -60,33 +111,28 @@ class PredictionService:
             stage1_query_result=output.stage1_result,
         )
 
-    def get_latest_prediction(self, device_id: str) -> PredictionResultResponse:
-        self._require_device(device_id)
-        prediction = self.predictions.get_latest_prediction(device_id)
-        if prediction is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="该设备暂无预测结果")
-        return PredictionResultResponse.model_validate(prediction)
-
-    def get_prediction_history(self, device_id: str, limit: int = 50) -> list[PredictionResultResponse]:
-        self._require_device(device_id)
-        return [PredictionResultResponse.model_validate(item) for item in self.predictions.get_prediction_history(device_id, limit)]
-
-    def get_fault_probabilities(self, device_id: str) -> FaultProbabilityResponse:
-        prediction = self.predictions.get_latest_prediction(device_id)
-        if prediction is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="该设备暂无预测结果")
-        return FaultProbabilityResponse(
-            device_id=device_id,
-            p_no_failure=prediction.p_no_failure or 0,
-            p_heat=prediction.p_heat or 0,
-            p_power=prediction.p_power or 0,
-            p_overstrain=prediction.p_overstrain or 0,
-            p_tool_wear=prediction.p_tool_wear or 0,
-        )
-
     def _require_device(self, device_id: str) -> None:
         if self.devices.get_by_id(device_id) is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="设备不存在")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="device not found")
+
+    @staticmethod
+    def _transient_prediction_response(device_id: str, output: FaultPredictionOutput) -> PredictionResultResponse:
+        return PredictionResultResponse(
+            id=0,
+            device_id=device_id,
+            predict_time=output.predict_time,
+            target_timestamp=output.target_timestamp,
+            forecast_horizon=output.forecast_horizon,
+            fault_type=output.fault_type,
+            probability=output.probability,
+            p_no_failure=output.probabilities.get("No Failure"),
+            p_heat=output.probabilities.get("Heat Dissipation Failure"),
+            p_power=output.probabilities.get("Power Failure"),
+            p_overstrain=output.probabilities.get("Overstrain Failure"),
+            p_tool_wear=output.probabilities.get("Tool Wear Failure"),
+            predicted_params=output.predicted_params,
+            model_version=f"{output.model_version}_active",
+        )
 
     def _write_prediction_cache(self, prediction: PredictionResult) -> None:
         self.redis.hset(

@@ -36,7 +36,8 @@ class Settings(BaseSettings):
     prediction_default_query_wear: float = 120
     prediction_max_rollout_steps: int = 64
 
-    data_replay_csv_path: str = "app/history_L.csv"
+    data_replay_csv_path: str = "app/stage1_training_data_regenerated_continuous.CSV"
+    data_replay_history_csv_path: str = "app/history_L.csv"
     data_replay_device_ids: list[str] = Field(default_factory=lambda: ["CNC-01"])
     data_replay_batch_size: int = 1
     data_replay_auto_start: bool = False

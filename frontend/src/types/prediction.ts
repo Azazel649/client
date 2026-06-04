@@ -28,7 +28,7 @@ export interface FaultProbability {
 
 export interface PredictionRun {
   prediction: PredictionResult;
-  health: HealthEvaluation;
+  health: HealthEvaluation | null;
   stage1_query_result: Record<string, unknown>;
 }
 

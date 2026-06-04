@@ -538,6 +538,11 @@ a {
   min-height: 340px;
 }
 
+.auto-prediction-chart {
+  width: 100%;
+  min-height: 340px;
+}
+
 .page-placeholder h1 {
   margin-top: 0;
   letter-spacing: 0;

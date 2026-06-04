@@ -15,6 +15,7 @@ class AmdModel:
         query_wear: float,
         machine_type: str,
         max_rollout_steps: int,
+        allow_calibrated_extension: bool = True,
     ) -> Stage1Prediction:
         return predict_first_stage(
             project_root=self.project_root,
@@ -24,4 +25,5 @@ class AmdModel:
             query_wear=query_wear,
             machine_type=machine_type,
             max_rollout_steps=max_rollout_steps,
+            allow_calibrated_extension=allow_calibrated_extension,
         )
